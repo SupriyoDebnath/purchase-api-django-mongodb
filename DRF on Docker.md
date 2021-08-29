@@ -7,43 +7,44 @@
 
 ## _Build Image_
 ```sh
-docker image build -t pm-app-image:1.1.0 .
+docker image build -t pm-app-image:2.0.0 .
 ```
 
 ## _Check Image_
 ```sh
 docker image ls -a | grep pm-app-image
-docker inspect pm-app-image:1.1.0
+docker inspect pm-app-image:2.0.0
 ```
 
 ## _Create Volume_
 ```sh
-docker volume create pm-app-media
+docker volume create pm-app-media2
 ```
 
 ## _Check Volume_
 ```sh
-docker volume ls | grep pm-app-media
-docker inspect pm-app-media
+docker volume ls | grep pm-app-media2
+docker inspect pm-app-media2
 ```
 
 ## _Run Container_
 ```sh
 docker run -d \
-  --name pm-app-mysql \
+  --name pm-app-mongodb \
   --network pm-net \
-  -p 8000:8000 \
-  --mount type=volume,src=pm-app-media,dst=/workspace/source/media \
-  pm-app-image:1.1.0
+  -p 8001:8001 \
+  --mount type=volume,src=pm-app-media2,dst=/workspace/source/media \
+  pm-app-image:2.0.0
 ```
 
 ## _Check Container_
 ```sh
-docker container ls -a | grep pm-app-mysql
-docker inspect pm-app-mysql
-docker container logs pm-app-mysql
-docker exec -it pm-app-mysql sh
+docker container ls -a | grep pm-app-mongodb
+docker inspect pm-app-mongodb
+docker container logs pm-app-mongodb
+docker exec -it pm-app-mongodb sh
  > whoami
+ > ps -ef
  > exit
 ```
 
