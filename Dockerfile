@@ -5,10 +5,10 @@ FROM python:${BASE_VERSION}
 
 # Set labels for defining metadata of the image
 
-LABEL version="1.x.x"
+LABEL version="2.x.x"
 LABEL author="Supriyo Debnath"
 LABEL title="Purchase Management API"
-LABEL description="Puchase Management API with MySQL as backend"
+LABEL description="Puchase Management API with MongoDB as backend"
 
 # Enable Python buffers/output to be sent to container logs
 
@@ -19,8 +19,6 @@ ENV PYTHONUNBUFFERED=1
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-            default-libmysqlclient-dev \
-            build-essential \
             tar
 
 # Set Workdirectory and pull the files from host
@@ -28,7 +26,7 @@ RUN apt-get update && \
 
 RUN mkdir /workspace
 WORKDIR /workspace
-ARG APP_LABEL=puchase_mysql_api
+ARG APP_LABEL=puchase_mongodb_api
 COPY ${APP_LABEL}.tar.gz ./
 RUN tar -xzvf ${APP_LABEL}.tar.gz
 WORKDIR /workspace/source
@@ -43,7 +41,7 @@ RUN mkdir media
 
 # Expose application port
 
-EXPOSE 8000
+EXPOSE 8001
 
 # Persist media folder
 
@@ -52,5 +50,5 @@ VOLUME /workspace/source/media
 # Run Django App
 
 ENTRYPOINT ["python3", "manage.py"]
-CMD ["runserver", "0.0.0.0:8000", "--noreload"]
+CMD ["runserver", "0.0.0.0:8001", "--noreload"]
 
